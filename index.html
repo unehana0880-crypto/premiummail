@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Laurel — 프리미엄 케어 메일 생성기</title>
+<title>Laurel — Expert Tip Generator</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap');
 
@@ -21,271 +21,94 @@
   --premium: #7A5B9E;
   --premium-bg: #F0EAF8;
   --red: #B94040;
+  --coral: #C9614A;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  font-family: 'Noto Sans KR', sans-serif;
-  background: var(--bg);
-  color: var(--dark);
-  min-height: 100vh;
-}
+body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); color: var(--dark); min-height: 100vh; }
 
-/* Header */
-.header {
-  background: var(--dark);
-  padding: 24px 24px 20px;
-  text-align: center;
-}
+.header { background: var(--dark); padding: 24px 24px 20px; text-align: center; }
 .header-sub { font-size: 10px; letter-spacing: 0.25em; color: #9A9088; margin-bottom: 6px; }
-.header-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 28px;
-  color: white;
-  font-style: italic;
-}
+.header-title { font-family: 'Cormorant Garamond', serif; font-size: 28px; color: white; font-style: italic; }
 .header-desc { font-size: 12px; color: #9A9088; margin-top: 6px; }
 
-/* Steps indicator */
-.steps {
-  display: flex;
-  background: var(--dark);
-  padding: 0 24px 16px;
-  gap: 4px;
-}
-.step-dot {
-  flex: 1;
-  height: 3px;
-  background: #333;
-  border-radius: 2px;
-  transition: background 0.3s;
-}
+.steps { display: flex; background: var(--dark); padding: 0 24px 16px; gap: 4px; }
+.step-dot { flex: 1; height: 3px; background: #333; border-radius: 2px; transition: background 0.3s; }
 .step-dot.active { background: var(--gold); }
 
-/* Content */
 .content { max-width: 600px; margin: 0 auto; padding: 20px 16px 100px; }
 
-/* Section */
-.section {
-  background: var(--card);
-  border-radius: 14px;
-  border: 1px solid var(--border);
-  margin-bottom: 14px;
-  overflow: hidden;
-}
-.section-hdr {
-  padding: 14px 16px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  border-bottom: 1px solid var(--border);
-  background: var(--light);
-}
-.section-num {
-  width: 24px; height: 24px;
-  background: var(--dark);
-  color: white;
-  border-radius: 50%;
-  font-size: 11px;
-  font-weight: 700;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-}
+.section { background: var(--card); border-radius: 14px; border: 1px solid var(--border); margin-bottom: 14px; overflow: hidden; }
+.section-hdr { padding: 14px 16px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--border); background: var(--light); }
+.section-num { width: 24px; height: 24px; background: var(--dark); color: white; border-radius: 50%; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .section-title { font-size: 14px; font-weight: 700; }
+.section-count { font-size: 10px; color: var(--mid); margin-left: auto; }
 .section-body { padding: 14px 16px; }
 
-/* Form elements */
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
 .form-group { display: flex; flex-direction: column; gap: 5px; }
 .form-group.full { grid-column: 1 / -1; }
 label { font-size: 10px; font-weight: 700; color: var(--mid); letter-spacing: 0.06em; }
-input, select {
-  padding: 10px 12px;
-  border: 1.5px solid var(--border);
-  border-radius: 8px;
-  font-family: inherit;
-  font-size: 13px;
-  background: var(--bg);
-  color: var(--dark);
-  outline: none;
-  -webkit-appearance: none;
-}
-input:focus, select:focus { border-color: var(--green); background: white; }
+input, select, textarea { padding: 10px 12px; border: 1.5px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 13px; background: var(--bg); color: var(--dark); outline: none; -webkit-appearance: none; }
+textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+input:focus, select:focus, textarea:focus { border-color: var(--green); background: white; }
 
-/* Chip selector */
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.chip {
-  padding: 6px 12px;
-  border-radius: 20px;
-  border: 1.5px solid var(--border);
-  background: white;
-  font-size: 12px;
-  cursor: pointer;
-  transition: all 0.15s;
-  font-family: inherit;
-  color: var(--dark);
-}
+.chip { padding: 6px 12px; border-radius: 20px; border: 1.5px solid var(--border); background: white; font-size: 12px; cursor: pointer; transition: all 0.15s; font-family: inherit; color: var(--dark); }
 .chip:active { transform: scale(0.97); }
 .chip.selected { background: var(--dark); color: white; border-color: var(--dark); }
 .chip.selected.green { background: var(--green); border-color: var(--green); }
-.chip.selected.gold { background: var(--gold); border-color: var(--gold); color: var(--dark); }
 .chip.selected.premium { background: var(--premium); border-color: var(--premium); }
 
-/* Generate button */
-.btn-generate {
-  width: 100%;
-  padding: 16px;
-  background: var(--dark);
-  color: white;
-  border: none;
-  border-radius: 12px;
-  font-family: inherit;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 16px;
-  transition: opacity 0.2s;
-}
+.divider-label { font-size: 11px; font-weight: 700; color: var(--mid); letter-spacing: 0.06em; margin: 12px 0 8px; }
+
+.lang-group { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 8px; }
+.lang-item { padding: 8px 12px; border-radius: 8px; border: 1.5px solid var(--border); background: white; font-size: 12px; cursor: pointer; transition: all 0.15s; font-family: inherit; color: var(--dark); display: flex; align-items: center; gap: 8px; text-align: left; }
+.lang-item:active { transform: scale(0.97); }
+.lang-item.selected { background: var(--dark); color: white; border-color: var(--dark); }
+.lang-item .flag { font-size: 18px; flex-shrink: 0; }
+.lang-name { font-size: 12px; font-weight: 600; display: block; }
+.lang-sub { font-size: 10px; opacity: 0.65; display: block; }
+
+.btn-generate { width: 100%; padding: 16px; background: var(--dark); color: white; border: none; border-radius: 12px; font-family: inherit; font-size: 15px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 16px; transition: opacity 0.2s; }
 .btn-generate:active { opacity: 0.85; }
 .btn-generate:disabled { opacity: 0.5; cursor: not-allowed; }
 .btn-generate.loading { background: var(--mid); }
 
-/* Result */
-.result-box {
-  display: none;
-  background: var(--card);
-  border-radius: 14px;
-  border: 1px solid var(--border);
-  margin-top: 16px;
-  overflow: hidden;
-}
+.result-box { display: none; background: var(--card); border-radius: 14px; border: 1px solid var(--border); margin-top: 16px; overflow: hidden; }
 .result-box.visible { display: block; }
 
-.result-hdr {
-  padding: 14px 16px;
-  background: var(--premium-bg);
-  border-bottom: 1px solid #C8A8E8;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
+.result-hdr { padding: 14px 16px; background: var(--premium-bg); border-bottom: 1px solid #C8A8E8; display: flex; align-items: center; justify-content: space-between; }
 .result-hdr-left { display: flex; align-items: center; gap: 8px; }
 .result-title { font-size: 14px; font-weight: 700; color: var(--premium); }
 
-/* Preview — KO */
-.preview-ko {
-  padding: 16px;
-  border-bottom: 1px solid var(--border);
-}
-.preview-label {
-  font-size: 10px; font-weight: 700; color: var(--mid);
-  letter-spacing: 0.08em; margin-bottom: 10px;
-  display: flex; align-items: center; gap: 6px;
-}
-.preview-label::after {
-  content: '';
-  flex: 1; height: 1px; background: var(--border);
-}
-.preview-text-ko {
-  font-size: 13px;
-  line-height: 1.8;
-  color: var(--dark);
-  white-space: pre-wrap;
-  background: var(--light);
-  border-radius: 8px;
-  padding: 14px;
-  max-height: 300px;
-  overflow-y: auto;
-}
+.lang-badge { display: inline-block; padding: 3px 10px; background: var(--gold-bg); border: 1px solid var(--gold); border-radius: 20px; font-size: 10px; font-weight: 700; color: #8B6914; margin-bottom: 8px; }
 
-/* Preview — EN */
-.preview-en { padding: 16px; }
-.preview-text-en {
-  font-size: 13px;
-  line-height: 1.8;
-  color: var(--dark);
-  white-space: pre-wrap;
-  background: var(--light);
-  border-radius: 8px;
-  padding: 14px;
-  max-height: 400px;
-  overflow-y: auto;
-}
+.preview-ko { padding: 16px; border-bottom: 1px solid var(--border); }
+.preview-main { padding: 16px; }
+.preview-label { font-size: 10px; font-weight: 700; color: var(--mid); letter-spacing: 0.08em; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+.preview-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.preview-text-ko, .preview-text-main { font-size: 13px; line-height: 1.8; color: var(--dark); white-space: pre-wrap; background: var(--light); border-radius: 8px; padding: 14px; max-height: 500px; overflow-y: auto; }
 
-/* Action buttons */
-.result-actions {
-  padding: 12px 16px;
-  border-top: 1px solid var(--border);
-  display: flex;
-  gap: 8px;
-}
-.btn-copy {
-  flex: 1;
-  padding: 13px;
-  background: var(--green);
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
-}
-.btn-gmail {
-  flex: 1;
-  padding: 13px;
-  background: var(--dark);
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
-}
+.result-actions { padding: 12px 16px; border-top: 1px solid var(--border); display: flex; gap: 8px; }
+.btn-copy { flex: 1; padding: 13px; background: var(--green); color: white; border: none; border-radius: 10px; font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
+.btn-gmail { flex: 1; padding: 13px; background: var(--dark); color: white; border: none; border-radius: 10px; font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
 .btn-copy:active, .btn-gmail:active { opacity: 0.85; }
 
-/* Loading spinner */
-.spinner {
-  width: 18px; height: 18px;
-  border: 2px solid rgba(255,255,255,0.3);
-  border-top-color: white;
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-  display: none;
-}
+.spinner { width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite; display: none; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* Tip note */
-.tip-note {
-  background: var(--gold-bg);
-  border: 1px solid #E8D08A;
-  border-radius: 8px;
-  padding: 10px 12px;
-  font-size: 11px;
-  color: #8B6914;
-  margin-top: 10px;
-  line-height: 1.6;
-}
+.tip-note { background: var(--gold-bg); border: 1px solid #E8D08A; border-radius: 8px; padding: 10px 12px; font-size: 11px; color: #8B6914; margin-top: 10px; line-height: 1.6; }
 
-/* Divider label */
-.divider-label {
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--mid);
-  letter-spacing: 0.06em;
-  margin: 12px 0 8px;
-}
+.progress-bar { height: 4px; background: var(--border); border-radius: 2px; margin-top: 12px; overflow: hidden; display: none; }
+.progress-fill { height: 100%; background: var(--gold); border-radius: 2px; width: 0%; transition: width 0.3s ease; }
+.progress-bar.visible { display: block; }
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div class="header-sub">LAUREL STUDIO · PREMIUM CARE</div>
+  <div class="header-sub">LAUREL STUDIO · HONGDAE SEOUL</div>
   <div class="header-title">Expert Tip Generator</div>
   <div class="header-desc">고객 정보 입력 → AI 전문가팁 생성 → 이메일 발송</div>
 </div>
@@ -308,11 +131,11 @@ input:focus, select:focus { border-color: var(--green); background: white; }
       <div class="form-row">
         <div class="form-group">
           <label>이름 (Name)</label>
-          <input type="text" id="guestName" placeholder="예: Sarah">
+          <input type="text" id="guestName" placeholder="예: Sarah" oninput="updateSteps()">
         </div>
         <div class="form-group">
           <label>이메일 (Email)</label>
-          <input type="email" id="guestEmail" placeholder="guest@email.com">
+          <input type="email" id="guestEmail" placeholder="guest@email.com" oninput="updateSteps()">
         </div>
         <div class="form-group">
           <label>나이대</label>
@@ -334,34 +157,82 @@ input:focus, select:focus { border-color: var(--green); background: white; }
             <option>남성</option>
           </select>
         </div>
-        <div class="form-group full">
-          <label>국가 / 출력 언어</label>
-          <select id="guestCountry">
-            <option value="">선택</option>
-            <option value="미국 (영어)">미국 (영어)</option>
-            <option value="영국 (영어)">영국 (영어)</option>
-            <option value="호주 (영어)">호주 (영어)</option>
-            <option value="프랑스 (프랑스어)">프랑스 (프랑스어)</option>
-            <option value="일본 (영어)">일본 (영어)</option>
-            <option value="중국 (영어)">중국 (영어)</option>
-            <option value="레바논 (아랍어+프랑스어)">레바논 (아랍어+프랑스어)</option>
-            <option value="기타 (영어)">기타 (영어)</option>
-          </select>
-        </div>
       </div>
     </div>
   </div>
 
-  <!-- 2. 피부 특성 -->
+  <!-- 2. 국가 / 출력 언어 -->
   <div class="section">
     <div class="section-hdr">
       <div class="section-num">2</div>
-      <div class="section-title">피부 특성 (복수 선택 가능)</div>
+      <div class="section-title">국가 / 출력 언어</div>
     </div>
     <div class="section-body">
-      <div class="chips" id="skinTypeChips">
+      <div class="lang-group">
+        <button class="lang-item" onclick="selectLang(this,'미국 (English)')">
+          <span class="flag">🇺🇸</span><div><span class="lang-name">미국</span><span class="lang-sub">English</span></div>
+        </button>
+        <button class="lang-item" onclick="selectLang(this,'영국 (English)')">
+          <span class="flag">🇬🇧</span><div><span class="lang-name">영국</span><span class="lang-sub">English</span></div>
+        </button>
+        <button class="lang-item" onclick="selectLang(this,'호주 (English)')">
+          <span class="flag">🇦🇺</span><div><span class="lang-name">호주</span><span class="lang-sub">English</span></div>
+        </button>
+        <button class="lang-item" onclick="selectLang(this,'캐나다 (English)')">
+          <span class="flag">🇨🇦</span><div><span class="lang-name">캐나다</span><span class="lang-sub">English</span></div>
+        </button>
+        <button class="lang-item" onclick="selectLang(this,'프랑스 (Français)')">
+          <span class="flag">🇫🇷</span><div><span class="lang-name">프랑스</span><span class="lang-sub">Français</span></div>
+        </button>
+        <button class="lang-item" onclick="selectLang(this,'레바논 (عربي + Français)')">
+          <span class="flag">🇱🇧</span><div><span class="lang-name">레바논</span><span class="lang-sub">عربي + Français</span></div>
+        </button>
+        <button class="lang-item" onclick="selectLang(this,'독일 (Deutsch)')">
+          <span class="flag">🇩🇪</span><div><span class="lang-name">독일</span><span class="lang-sub">Deutsch</span></div>
+        </button>
+        <button class="lang-item" onclick="selectLang(this,'이탈리아 (Italiano)')">
+          <span class="flag">🇮🇹</span><div><span class="lang-name">이탈리아</span><span class="lang-sub">Italiano</span></div>
+        </button>
+        <button class="lang-item" onclick="selectLang(this,'스웨덴 (Svenska)')">
+          <span class="flag">🇸🇪</span><div><span class="lang-name">스웨덴</span><span class="lang-sub">Svenska</span></div>
+        </button>
+        <button class="lang-item" onclick="selectLang(this,'터키 (Türkçe)')">
+          <span class="flag">🇹🇷</span><div><span class="lang-name">터키</span><span class="lang-sub">Türkçe</span></div>
+        </button>
+        <button class="lang-item" onclick="selectLang(this,'멕시코 (Español)')">
+          <span class="flag">🇲🇽</span><div><span class="lang-name">멕시코</span><span class="lang-sub">Español</span></div>
+        </button>
+        <button class="lang-item" onclick="selectLang(this,'홍콩 (廣東話)')">
+          <span class="flag">🇭🇰</span><div><span class="lang-name">홍콩</span><span class="lang-sub">廣東話 繁體</span></div>
+        </button>
+        <button class="lang-item" onclick="selectLang(this,'마카오 (廣東話)')">
+          <span class="flag">🇲🇴</span><div><span class="lang-name">마카오</span><span class="lang-sub">廣東話 繁體</span></div>
+        </button>
+        <button class="lang-item" onclick="selectLang(this,'중국 (中文 普通話)')">
+          <span class="flag">🇨🇳</span><div><span class="lang-name">중국</span><span class="lang-sub">中文 普通話</span></div>
+        </button>
+        <button class="lang-item" onclick="selectLang(this,'한국 (한국어)')">
+          <span class="flag">🇰🇷</span><div><span class="lang-name">한국</span><span class="lang-sub">한국어</span></div>
+        </button>
+        <button class="lang-item" onclick="selectLang(this,'기타 (English)')">
+          <span class="flag">🌍</span><div><span class="lang-name">기타</span><span class="lang-sub">English</span></div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. 피부 특성 -->
+  <div class="section">
+    <div class="section-hdr">
+      <div class="section-num">3</div>
+      <div class="section-title">피부 특성 (복수 선택)</div>
+      <div class="section-count" id="skinTypeCount">0개 선택</div>
+    </div>
+    <div class="section-body">
+      <div class="chips">
         <button class="chip" onclick="toggleChip(this,'skinTypes')">얇은 피부</button>
         <button class="chip" onclick="toggleChip(this,'skinTypes')">건조</button>
+        <button class="chip" onclick="toggleChip(this,'skinTypes')">탈수성 지성</button>
         <button class="chip" onclick="toggleChip(this,'skinTypes')">지성</button>
         <button class="chip" onclick="toggleChip(this,'skinTypes')">복합성</button>
         <button class="chip" onclick="toggleChip(this,'skinTypes')">민감성</button>
@@ -372,32 +243,37 @@ input:focus, select:focus { border-color: var(--green); background: white; }
     </div>
   </div>
 
-  <!-- 3. 주요 고민 -->
+  <!-- 4. 주요 고민 -->
   <div class="section">
     <div class="section-hdr">
-      <div class="section-num">3</div>
+      <div class="section-num">4</div>
       <div class="section-title">주요 피부 고민 (복수 선택)</div>
+      <div class="section-count" id="concernCount">0개 선택</div>
     </div>
     <div class="section-body">
-      <div class="chips" id="concernChips">
+      <div class="chips">
         <button class="chip" onclick="toggleChip(this,'concerns')">트러블/여드름</button>
+        <button class="chip" onclick="toggleChip(this,'concerns')">화농성/모낭염</button>
         <button class="chip" onclick="toggleChip(this,'concerns')">홍조</button>
         <button class="chip" onclick="toggleChip(this,'concerns')">모공</button>
+        <button class="chip" onclick="toggleChip(this,'concerns')">블랙헤드</button>
         <button class="chip" onclick="toggleChip(this,'concerns')">색소침착/잡티</button>
+        <button class="chip" onclick="toggleChip(this,'concerns')">기미/멜라즈마</button>
         <button class="chip" onclick="toggleChip(this,'concerns')">주름/탄력</button>
         <button class="chip" onclick="toggleChip(this,'concerns')">다크서클</button>
-        <button class="chip" onclick="toggleChip(this,'concerns')">각질</button>
+        <button class="chip" onclick="toggleChip(this,'concerns')">각질/과각질화</button>
         <button class="chip" onclick="toggleChip(this,'concerns')">편평사마귀</button>
-        <button class="chip" onclick="toggleChip(this,'concerns')">모공 속 털</button>
+        <button class="chip" onclick="toggleChip(this,'concerns')">Trichostasis Spinulosa</button>
+        <button class="chip" onclick="toggleChip(this,'concerns')">쥐젖(피부 사마귀)</button>
         <button class="chip" onclick="toggleChip(this,'concerns')">흔적/자국</button>
       </div>
     </div>
   </div>
 
-  <!-- 4. 케어 버전 -->
+  <!-- 5. 케어 버전 -->
   <div class="section">
     <div class="section-hdr">
-      <div class="section-num">4</div>
+      <div class="section-num">5</div>
       <div class="section-title">케어 버전</div>
     </div>
     <div class="section-body">
@@ -408,66 +284,87 @@ input:focus, select:focus { border-color: var(--green); background: white; }
     </div>
   </div>
 
-  <!-- 5. 추천 제품 -->
+  <!-- 6. 추천 제품 -->
   <div class="section">
     <div class="section-hdr">
-      <div class="section-num">5</div>
-      <div class="section-title">추천 제품 (해당하는 것 선택)</div>
+      <div class="section-num">6</div>
+      <div class="section-title">추천 제품 (복수 선택)</div>
+      <div class="section-count" id="productCount">0개 선택</div>
     </div>
     <div class="section-body">
-      <div class="divider-label">기본 보습</div>
-      <div class="chips" style="margin-bottom:10px;">
+      <div class="divider-label">🧴 기본 보습</div>
+      <div class="chips" style="margin-bottom:12px;">
         <button class="chip" onclick="toggleChip(this,'products')">아토베리어 365 크림</button>
         <button class="chip" onclick="toggleChip(this,'products')">피지오겔 DMT 크림</button>
-        <button class="chip" onclick="toggleChip(this,'products')">세타필 모이스춰라이징 크림</button>
+        <button class="chip" onclick="toggleChip(this,'products')">세타필 모이스춰 크림 (바디)</button>
         <button class="chip" onclick="toggleChip(this,'products')">MIXSOON 콩에센스</button>
-        <button class="chip" onclick="toggleChip(this,'products')">아토팜 판테놀크림</button>
+        <button class="chip" onclick="toggleChip(this,'products')">아토팜 판테놀 크림</button>
         <button class="chip" onclick="toggleChip(this,'products')">다이소 닥터씨피유 수분 앰플</button>
       </div>
-      <div class="divider-label">선크림</div>
-      <div class="chips" style="margin-bottom:10px;">
+      <div class="divider-label">☀️ 선크림</div>
+      <div class="chips" style="margin-bottom:12px;">
         <button class="chip" onclick="toggleChip(this,'products')">다이소 마린 수분광채 선젤 SPF50+</button>
       </div>
-      <div class="divider-label">안티에이징</div>
-      <div class="chips" style="margin-bottom:10px;">
+      <div class="divider-label">✨ 안티에이징</div>
+      <div class="chips" style="margin-bottom:12px;">
         <button class="chip" onclick="toggleChip(this,'products')">본셉 레티놀 2500IU (다이소)</button>
       </div>
-      <div class="divider-label">흔적/미백</div>
-      <div class="chips" style="margin-bottom:10px;">
-        <button class="chip" onclick="toggleChip(this,'products')">파티온 노스카나인 흔적앰플 (다이소)</button>
+      <div class="divider-label">💫 흔적 / 미백</div>
+      <div class="chips" style="margin-bottom:12px;">
+        <button class="chip" onclick="toggleChip(this,'products')">파티온 노스카나인 흔적앰플 30ml (다이소)</button>
         <button class="chip" onclick="toggleChip(this,'products')">트리넥삼산 처방약</button>
       </div>
-      <div class="divider-label">트러블 스팟</div>
-      <div class="chips">
+      <div class="divider-label">💊 트러블 스팟</div>
+      <div class="chips" style="margin-bottom:12px;">
         <button class="chip" onclick="toggleChip(this,'products')">큐아크네 플러스 크림 (약국)</button>
+        <button class="chip" onclick="toggleChip(this,'products')">수란트라 연고 (처방)</button>
+      </div>
+      <div class="divider-label">🌿 클렌징</div>
+      <div class="chips">
+        <button class="chip" onclick="toggleChip(this,'products')">클렌징 밀크 (듀이트리 추천)</button>
+        <button class="chip" onclick="toggleChip(this,'products')">약산성 폼클렌저 (다이소 무방)</button>
       </div>
     </div>
   </div>
 
-  <!-- 6. 특이사항 -->
+  <!-- 7. 특이사항 -->
   <div class="section">
     <div class="section-hdr">
-      <div class="section-num">6</div>
-      <div class="section-title">특이사항 (선택)</div>
+      <div class="section-num">7</div>
+      <div class="section-title">특이사항 / 추가 입력</div>
     </div>
     <div class="section-body">
-      <div class="chips" style="margin-bottom:10px;">
+      <div class="chips" style="margin-bottom:12px;">
         <button class="chip" onclick="toggleChip(this,'special')">수염 있음</button>
-        <button class="chip" onclick="toggleChip(this,'special')">임산부</button>
         <button class="chip" onclick="toggleChip(this,'special')">루푸스</button>
+        <button class="chip" onclick="toggleChip(this,'special')">주사피부염 (Rosacea)</button>
+        <button class="chip" onclick="toggleChip(this,'special')">묘기증 (Dermographism)</button>
+        <button class="chip" onclick="toggleChip(this,'special')">임산부</button>
         <button class="chip" onclick="toggleChip(this,'special')">당뇨</button>
         <button class="chip" onclick="toggleChip(this,'special')">심혈관 질환</button>
+        <button class="chip" onclick="toggleChip(this,'special')">스틸 알러지</button>
         <button class="chip" onclick="toggleChip(this,'special')">메이크업 자주 함</button>
+        <button class="chip" onclick="toggleChip(this,'special')">각질 제거 금지</button>
+        <button class="chip" onclick="toggleChip(this,'special')">오일 클렌징 사용 중</button>
+        <button class="chip" onclick="toggleChip(this,'special')">레이저 시술 후</button>
       </div>
       <div class="form-group" style="margin-top:10px;">
-        <label>추가 메모 (직접 입력)</label>
-        <input type="text" id="extraNote" placeholder="예: 레이저 시술 후 회복 중, 임신 6개월 등">
+        <label>추가 메모 (관찰 내용 자유 입력)</label>
+        <textarea id="extraNote" placeholder="예: 이마 주름이 특히 심함, 보톡스 관심 있음, 해면 클렌징 후 볼에 홍조 확인, 코에 Trichostasis Spinulosa 의심 등"></textarea>
+      </div>
+      <div class="form-group" style="margin-top:10px;">
+        <label>마무리 인사말 (선택 — 팁 마지막에 추가됨)</label>
+        <input type="text" id="closingMsg" placeholder="예: 좋은 서울 여행 되세요. 하나 드림 💕">
       </div>
     </div>
   </div>
 
   <div class="tip-note">
-    💡 선택 후 <strong>"전문가팁 생성"</strong> 버튼을 누르면 AI가 위 정보를 조합해 맞춤 영문 전문가팁을 만들어줍니다. 한국어 요약도 함께 생성돼요.
+    💡 국가 선택 시 해당 언어로 자동 출력됩니다. 레바논은 아랍어+프랑스어 병기, 홍콩/마카오는 광동어 번체로 출력됩니다. 트리넥삼산 선택 시 전문의 상담 안내가 자동 포함됩니다.
+  </div>
+
+  <div class="progress-bar" id="progressBar">
+    <div class="progress-fill" id="progressFill"></div>
   </div>
 
   <button class="btn-generate" id="generateBtn" onclick="generateTip()">
@@ -484,19 +381,17 @@ input:focus, select:focus { border-color: var(--green); background: white; }
       </div>
       <span style="font-size:11px;color:var(--mid)" id="resultName"></span>
     </div>
-
     <div class="preview-ko">
+      <div class="lang-badge" id="langBadge">🌍 English</div>
       <div class="preview-label">한국어 요약 (내부 확인용)</div>
       <div class="preview-text-ko" id="koText">—</div>
     </div>
-
-    <div class="preview-en">
-      <div class="preview-label">영문 전문가팁 (고객 발송용)</div>
-      <div class="preview-text-en" id="enText">—</div>
+    <div class="preview-main">
+      <div class="preview-label">전문가팁 본문 (고객 발송용)</div>
+      <div class="preview-text-main" id="mainText">—</div>
     </div>
-
     <div class="result-actions">
-      <button class="btn-copy" onclick="copyEN()">📋 영문 복사</button>
+      <button class="btn-copy" onclick="copyMain()">📋 본문 복사</button>
       <button class="btn-gmail" onclick="openGmail()">📧 Gmail 열기</button>
     </div>
   </div>
@@ -506,92 +401,147 @@ input:focus, select:focus { border-color: var(--green); background: white; }
 <script>
 const selections = { skinTypes: [], concerns: [], products: [], special: [] };
 let careVersion = 'basic';
-let generatedEN = '';
+let selectedLang = '';
+let generatedMain = '';
 let guestEmailValue = '';
 let guestNameValue = '';
+let progressInterval = null;
+
+const langMap = {
+  '미국 (English)': { flag: '🇺🇸', label: 'English', inst: '영어(English)로 작성하세요.' },
+  '영국 (English)': { flag: '🇬🇧', label: 'English (UK)', inst: '영어(English)로 작성하세요.' },
+  '호주 (English)': { flag: '🇦🇺', label: 'English (AU)', inst: '영어(English)로 작성하세요. 호주의 강한 자외선 환경을 반드시 강조하세요.' },
+  '캐나다 (English)': { flag: '🇨🇦', label: 'English (CA)', inst: '영어(English)로 작성하세요.' },
+  '프랑스 (Français)': { flag: '🇫🇷', label: 'Français', inst: '프랑스어(Français)로만 작성하세요. 자연스럽고 따뜻한 프랑스어 표현을 사용하세요.' },
+  '레바논 (عربي + Français)': { flag: '🇱🇧', label: 'عربي + Français', inst: '각 섹션마다 프랑스어 먼저 작성하고, 바로 아래에 레바논 아랍어 방언(عربي لبناني)으로 번역해 병기하세요.' },
+  '독일 (Deutsch)': { flag: '🇩🇪', label: 'Deutsch', inst: '독일어(Deutsch)로만 작성하세요.' },
+  '이탈리아 (Italiano)': { flag: '🇮🇹', label: 'Italiano', inst: '이탈리아어(Italiano)로만 작성하세요.' },
+  '스웨덴 (Svenska)': { flag: '🇸🇪', label: 'Svenska', inst: '스웨덴어(Svenska)로만 작성하세요.' },
+  '터키 (Türkçe)': { flag: '🇹🇷', label: 'Türkçe', inst: '터키어(Türkçe)로만 작성하세요.' },
+  '멕시코 (Español)': { flag: '🇲🇽', label: 'Español (MX)', inst: '멕시코 스페인어(Español mexicano)로만 작성하세요.' },
+  '홍콩 (廣東話)': { flag: '🇭🇰', label: '廣東話 繁體', inst: '홍콩 스타일 광동어(廣東話, 繁體中文)로만 작성하세요.' },
+  '마카오 (廣東話)': { flag: '🇲🇴', label: '廣東話 繁體', inst: '마카오/홍콩 스타일 광동어(廣東話, 繁體中文)로만 작성하세요.' },
+  '중국 (中文 普通話)': { flag: '🇨🇳', label: '中文 普通話', inst: '표준 중국어(普通話, 简体中文)로만 작성하세요.' },
+  '한국 (한국어)': { flag: '🇰🇷', label: '한국어', inst: '한국어로만 작성하세요. 상냥하고 전문적인 표현을 사용하세요.' },
+  '기타 (English)': { flag: '🌍', label: 'English', inst: '영어(English)로 작성하세요.' },
+};
+
+function selectLang(el, langVal) {
+  document.querySelectorAll('.lang-item').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedLang = langVal;
+  updateSteps();
+}
 
 function toggleChip(el, group) {
   const val = el.textContent.trim();
   const idx = selections[group].indexOf(val);
-  if (idx > -1) {
-    selections[group].splice(idx, 1);
-    el.classList.remove('selected', 'green');
-  } else {
-    selections[group].push(val);
-    el.classList.add('selected', 'green');
-  }
+  if (idx > -1) { selections[group].splice(idx, 1); el.classList.remove('selected','green'); }
+  else { selections[group].push(val); el.classList.add('selected','green'); }
+  const countMap = { skinTypes:'skinTypeCount', concerns:'concernCount', products:'productCount' };
+  if (countMap[group]) document.getElementById(countMap[group]).textContent = selections[group].length + '개 선택';
   updateSteps();
 }
 
 function selectCare(type) {
   careVersion = type;
-  document.getElementById('careBasic').className = 'chip' + (type === 'basic' ? ' selected premium' : '');
-  document.getElementById('carePremium').className = 'chip' + (type === 'premium' ? ' selected premium' : '');
+  document.getElementById('careBasic').className = 'chip' + (type==='basic' ? ' selected premium' : '');
+  document.getElementById('carePremium').className = 'chip' + (type==='premium' ? ' selected premium' : '');
 }
 
 function updateSteps() {
   const s1 = document.getElementById('guestName').value && document.getElementById('guestEmail').value;
-  const s2 = selections.skinTypes.length > 0 || selections.concerns.length > 0;
+  const s2 = selectedLang && (selections.skinTypes.length > 0 || selections.concerns.length > 0);
   document.getElementById('s1').classList.toggle('active', !!s1);
-  document.getElementById('s2').classList.toggle('active', s2);
+  document.getElementById('s2').classList.toggle('active', !!s2);
 }
 
-document.getElementById('guestName').addEventListener('input', updateSteps);
-document.getElementById('guestEmail').addEventListener('input', updateSteps);
-
 function buildPrompt() {
-  const name = document.getElementById('guestName').value.trim();
+  const name = document.getElementById('guestName').value.trim() || '고객';
   const age = document.getElementById('guestAge').value;
   const gender = document.getElementById('guestGender').value;
-  const country = document.getElementById('guestCountry').value;
   const extra = document.getElementById('extraNote').value.trim();
+  const closing = document.getElementById('closingMsg').value.trim();
+  const lInfo = langMap[selectedLang] || { inst: '영어로 작성하세요.' };
 
-  return `당신은 로렐 스튜디오의 피부 성분 전문가입니다. 아래 고객 정보를 바탕으로 개인화된 전문가 피부 팁을 영문으로 작성해주세요.
+  let specialNotes = '';
+  if (selections.special.includes('루푸스')) specialNotes += '\n- 루푸스: UV 극도로 민감, 자극적 시술 금지, 레티놀 도입 매우 신중히';
+  if (selections.special.includes('주사피부염 (Rosacea)')) specialNotes += '\n- 주사피부염: 자극 최소화, 장벽 회복 최우선, 수란트라 연고 처방 안내 포함';
+  if (selections.special.includes('묘기증 (Dermographism)')) specialNotes += '\n- 묘기증: 마사지/각질제거/추출 절대 금지, 모든 제품 눌러서만 적용';
+  if (selections.products.includes('트리넥삼산 처방약')) specialNotes += '\n- 트리넥삼산: 반드시 전문의 상담 및 기저질환 확인 후 복용 강조, 50대 이상 혈액점도 주의';
+  if (selections.products.includes('본셉 레티놀 2500IU (다이소)')) specialNotes += '\n- 레티놀: 밤에만 사용, 1달 기초 후 3일 1회 → 2일 1회 → 매일 순서로 점진적 도입';
+  if (selections.special.includes('오일 클렌징 사용 중')) specialNotes += '\n- 오일/밤 클렌징: 모공 막는 성분 우려, 클렌징 밀크로 교체 강력 권유';
+
+  return `당신은 로렐 스튜디오(서울 홍대)의 피부 성분 전문가입니다.
+아래 고객 정보를 바탕으로 개인화된 전문가 피부 팁과 루틴을 작성하세요.
+
+【필수: 출력 언어】
+${lInfo.inst}
+절대 한국어를 섞지 마세요. 해당 언어로만 100% 작성하세요.
 
 【고객 정보】
-- 이름: ${name || '고객'}
-- 나이대: ${age || '미입력'}
-- 성별: ${gender || '미입력'}
-- 국가/언어: ${country || '영어'}
-- 피부 특성: ${selections.skinTypes.join(', ') || '일반'}
-- 주요 고민: ${selections.concerns.join(', ') || '기본 보습'}
-- 케어 버전: ${careVersion === 'premium' ? '프리미엄 케어' : '베이직 케어'}
-- 추천 제품: ${selections.products.join(', ') || '아토베리어 365 크림'}
-- 특이사항: ${[...selections.special, extra].filter(Boolean).join(', ') || '없음'}
+이름: ${name} / 나이대: ${age||'미입력'} / 성별: ${gender||'미입력'} / 국가: ${selectedLang}
+피부 특성: ${selections.skinTypes.join(', ')||'일반'}
+주요 고민: ${selections.concerns.join(', ')||'기본 보습'}
+케어 버전: ${careVersion==='premium'?'프리미엄':'베이직'}
+추천 제품: ${selections.products.join(', ')||'아토베리어 365 크림'}
+특이사항: ${selections.special.join(', ')||'없음'}
+추가 메모: ${extra||'없음'}
+${specialNotes}
 
 【작성 원칙】
-1. 고객 이름을 자주 불러주며 상냥하고 따뜻하게 작성
-2. 피부 과학 근거를 쉽게 설명 (전문 용어는 간단히 풀어서)
-3. 세안 루틴, 보습 루틴, 선크림, 각질 관리, 추천 제품 사용법 포함
-4. 추천 제품은 구체적인 사용량(검지 1마디 등)과 순서 명시
-5. 안티에이징 해당 시 레티놀 단계별 일정 포함
-6. 마지막에 따뜻한 응원 메시지로 마무리
-7. 영문으로 작성하되 자연스럽고 읽기 쉽게
+1. 고객 이름을 자주 불러주며 상냥하고 따뜻하게
+2. 피부 과학 근거를 쉽게 설명 (비유 적극 활용)
+3. 각 추천 제품의 구체적 사용량(검지 2마디 등)과 순서 명시
+4. 아침 루틴 / 저녁 루틴 / 낮 관리 / 주의사항 구분
+5. 따뜻한 응원 메시지로 마무리
+${closing ? `6. 마지막에 이 인사말 포함: "${closing}"` : ''}
 
-【핵심 피부 과학 (필요한 것만 포함)】
-- 얇은 피부: 방어기관 약함 → 보습이 최우선
-- 피지 과분비: 건조함의 신호 → 수분 보충이 해결책
-- 홍조: 수분 부족으로 모세혈관 확장 → 수분크림이 핵심
-- 각질: 월 1회 PHA만 (스크럽 금지)
-- 레티놀: 밤에만, 3일 1회부터 점진적으로
+【핵심 피부 과학 (해당하는 것만 포함)】
+- 탈수성 지성/건성: 피지 과분비 = 건조함의 신호. 수분 보충 = 해결책
+- 홍조: 수분 부족 → 모세혈관 수축 시스템 고장 → 자동차 냉각수 비유
+- 블랙헤드/화이트헤드: 건조 → 피지 과다 → 모공 막힘 → 짜지 말고 수분 보충
+- 얇은 피부: 방어벽 약함 → 매일 인공 보습막 필수 → 물풍선 비유
+- 각질: PHA 월 1회만 (스크럽 절대 금지)
+- 물풍선: 수분 꽉 찬 = 탄력 / 수분 없는 = 쭈글쭈글
 
-영문 전문가팁을 작성한 후, 마지막에 --- 구분선을 넣고 아래 형식으로 한국어 요약을 추가해주세요:
-
+작성 완료 후 구분선 추가:
+---
 [한국어 요약]
-• 피부 특성: (한 줄)
-• 핵심 루틴: (3줄 이내)
-• 주요 추천 제품: (리스트)
-• 특별 주의사항: (해당 시)`;
+• 피부 타입:
+• 핵심 루틴:
+• 추천 제품:
+• 주의사항:`;
+}
+
+function startProgress() {
+  const bar = document.getElementById('progressBar');
+  const fill = document.getElementById('progressFill');
+  bar.classList.add('visible');
+  fill.style.width = '0%';
+  let pct = 0;
+  progressInterval = setInterval(() => {
+    pct += Math.random() * 6;
+    if (pct > 88) pct = 88;
+    fill.style.width = pct + '%';
+  }, 500);
+}
+
+function endProgress() {
+  clearInterval(progressInterval);
+  const fill = document.getElementById('progressFill');
+  fill.style.width = '100%';
+  setTimeout(() => {
+    document.getElementById('progressBar').classList.remove('visible');
+    fill.style.width = '0%';
+  }, 600);
 }
 
 async function generateTip() {
   const name = document.getElementById('guestName').value.trim();
   const email = document.getElementById('guestEmail').value.trim();
-
-  if (!name || !email) {
-    alert('이름과 이메일을 입력해주세요!');
-    return;
-  }
+  if (!name || !email) { alert('이름과 이메일을 입력해주세요!'); return; }
+  if (!selectedLang) { alert('국가/언어를 선택해주세요!'); return; }
 
   guestNameValue = name;
   guestEmailValue = email;
@@ -599,11 +549,11 @@ async function generateTip() {
   const btn = document.getElementById('generateBtn');
   const spinner = document.getElementById('spinner');
   const label = document.getElementById('generateLabel');
-
   btn.disabled = true;
   btn.classList.add('loading');
   spinner.style.display = 'block';
-  label.textContent = '생성 중...';
+  label.textContent = 'AI 생성 중...';
+  startProgress();
 
   try {
     const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -611,64 +561,66 @@ async function generateTip() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
+        max_tokens: 4000,
         messages: [{ role: 'user', content: buildPrompt() }]
       })
     });
 
     const data = await response.json();
+    if (data.error) throw new Error(data.error.message || 'API 오류');
+
     const full = data.content[0].text;
-
-    // Split EN and KO
     const parts = full.split('---');
-    const enPart = parts[0].trim();
-    const koPart = parts[1] ? parts[1].replace('[한국어 요약]', '').trim() : '요약 생성 중...';
+    const mainPart = parts[0].trim();
+    const koPart = parts[1] ? parts[1].replace('[한국어 요약]','').trim() : '요약 생성 실패';
 
-    generatedEN = enPart;
-
-    document.getElementById('enText').textContent = enPart;
+    generatedMain = mainPart;
+    document.getElementById('mainText').textContent = mainPart;
     document.getElementById('koText').textContent = koPart;
     document.getElementById('resultName').textContent = name + ' 고객';
+
+    const lInfo = langMap[selectedLang] || { flag:'🌍', label:'English' };
+    document.getElementById('langBadge').textContent = lInfo.flag + ' ' + lInfo.label;
+
     document.getElementById('resultBox').classList.add('visible');
     document.getElementById('s3').classList.add('active');
+    document.getElementById('resultBox').scrollIntoView({ behavior:'smooth', block:'start' });
 
-    // Scroll to result
-    document.getElementById('resultBox').scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-  } catch (e) {
-    alert('생성 중 오류가 발생했어요. 다시 시도해주세요.\n' + e.message);
+  } catch(e) {
+    alert('생성 중 오류가 발생했어요.\n' + e.message);
   } finally {
+    endProgress();
     btn.disabled = false;
     btn.classList.remove('loading');
     spinner.style.display = 'none';
-    label.textContent = '✨ 다시 생성하기';
+    label.textContent = '🔄 다시 생성하기';
   }
 }
 
-function copyEN() {
-  if (!generatedEN) return;
+function copyMain() {
+  if (!generatedMain) return;
   const btn = document.querySelector('.btn-copy');
-  navigator.clipboard.writeText(generatedEN).then(() => {
+  navigator.clipboard.writeText(generatedMain).then(() => {
     btn.textContent = '✅ 복사됐어요!';
-    setTimeout(() => btn.textContent = '📋 영문 복사', 2000);
+    setTimeout(() => btn.textContent = '📋 본문 복사', 2000);
   }).catch(() => {
     const ta = document.createElement('textarea');
-    ta.value = generatedEN;
+    ta.value = generatedMain;
     document.body.appendChild(ta);
     ta.select();
     document.execCommand('copy');
     document.body.removeChild(ta);
     btn.textContent = '✅ 복사됐어요!';
-    setTimeout(() => btn.textContent = '📋 영문 복사', 2000);
+    setTimeout(() => btn.textContent = '📋 본문 복사', 2000);
   });
 }
 
 function openGmail() {
   if (!guestEmailValue) return;
-  const subject = encodeURIComponent(`Your Personalized Skincare Guide from Laurel Studio 🌿`);
-  const body = encodeURIComponent(generatedEN);
-  const url = `https://mail.google.com/mail/?view=cm&to=${encodeURIComponent(guestEmailValue)}&su=${subject}&body=${body}`;
+  const subject = encodeURIComponent('Your Personalized Skincare Guide — Laurel Studio 🌿');
+  const url = `https://mail.google.com/mail/?view=cm&to=${encodeURIComponent(guestEmailValue)}&su=${subject}`;
   window.open(url, '_blank');
+  setTimeout(() => alert('Gmail이 열렸어요!\n📋 복사한 본문을 붙여넣어 주세요.'), 500);
 }
 </script>
 </body>
